@@ -1,1 +1,124 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;400;600;800&display=swap');
+
+:root {
+    --primary-color: #273b93;
+    --primary-color-hover: #5062b1;
+    --secondary-color: #e5f1f5;
+    --body-text-color: #596392;
+    --navbar-footer-color: #f9f9f9;
+    --accent-color: #e9df00;
+    --shadow-color: #eaefff;
+    --shadow-effect-color: #4f65ae;
+}
+
+html,
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    color: var(--body-text-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-underline-offset: 4px;
+    text-decoration: underline solid var(--primary-color) 0.4px;
+}
+
+.site-logo {
+    padding: 0.8rem 1rem;
+    border-radius: 0.3rem;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.nav-link {
+    text-transform: uppercase;
+}
+
+.shadow-effect {
+    border: none;
+    box-shadow: 0px 0px 25px -15px var(--shadow-effect-color);
+}
+
+.parallax,
+.parallax-border {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*----------------Custom theme----------------*/
+/*---colors---*/
+.bg-primary-theme {
+    background-color: var(--primary-color);
+}
+
+.bg-secondary-theme {
+    background-color: var(--secondary-color);
+}
+
+.bg-light-theme {
+    background-color: var(--navbar-footer-color);
+}
+
+.text-theme-primary {
+    color: var(--primary-color);
+}
+
+
+/*--- forms ---*/
+input {
+    height: 50px;
+    width: 100%;
+    padding-left: 20px;
+    color: var(--body-text-color) !important;
+    border: 0 !important;
+    box-shadow: 0px 0px 8px -1px inset gainsboro !important;
+}
+
+form textarea {
+    padding-left: 20px;
+    color: var(--body-text-color) !important;
+    resize: vertical;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    border: 0 !important;
+    box-shadow: 0px 0px 8px -1px inset gainsboro !important;
+}
+
+form input:hover,
+form input:focus,
+form textarea:hover,
+form textarea:focus {
+    box-shadow: 0px 0px 14px -8px inset var(--primary-color) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--body-text-color) !important;
+}
+
+/* ---custom button---*/
+.btn-custom-theme {
+    min-height: 40px;
+    border: none;
+    color: white !important;
+    font-size: 0.9rem;
+    background-color: var(--primary-color);
+}
+
+.btn-custom-theme:hover {
+    background-color: var(--primary-color-hover);
+}
