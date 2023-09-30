@@ -1,0 +1,16 @@
+.card {
+    background-color: var(--accent-color);
+}
+
+.parallax-border {
+    background-image: url('src/assets/bright-accent.jpg');
+    height: 10px;
+}
+
+.btn-custom-theme {
+    height: 50px;
+}
+
+.subs-text {
+    max-width: 90%;
+}

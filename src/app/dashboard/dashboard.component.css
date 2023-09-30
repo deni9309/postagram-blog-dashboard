@@ -1,3 +1,8 @@
 .card {
     height: 200px;
+    cursor: pointer;
+}
+
+.card:hover div.card-body {
+    background-color: var(--secondary-color-hover);
 }
