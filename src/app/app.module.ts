@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { environment } from 'src/environments/environment';
+import { firebaseConfig } from 'src/vars/firebaseConfig';
 
 @NgModule({
     declarations: [
@@ -20,8 +20,8 @@ import { environment } from 'src/environments/environment';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig)
-        //provideFirebaseApp(()=> initializeApp(fireConfig))
+        AngularFireModule.initializeApp(firebaseConfig)
+        //provideFirebaseApp(()=> initializeApp(firebaseConfig))
     ],
     providers: [],
     bootstrap: [ AppComponent ]
