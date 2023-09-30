@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire/compat';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+//import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,8 +21,8 @@ import { firebaseConfig } from 'src/vars/firebaseConfig';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        AngularFireModule.initializeApp(firebaseConfig)
-        //provideFirebaseApp(()=> initializeApp(firebaseConfig))
+        AngularFireModule.initializeApp(firebaseConfig),  //provideFirebaseApp(() => initializeApp(firebaseConfig)),
+        AngularFirestoreModule
     ],
     providers: [],
     bootstrap: [ AppComponent ]
