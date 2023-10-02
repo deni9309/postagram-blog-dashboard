@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { CategoriesService } from '../services/categories.service';
+import { Category } from '../interfaces';
 
 @Component({
     selector: 'app-categories',
@@ -13,22 +15,34 @@ export class CategoriesComponent {
 
     allCategories: any[] = [];
     allCategories$: Observable<any>;
-    constructor(private firestore: Firestore) {
-        this.getData();
+    constructor(private firestore: Firestore, private categoryService: CategoriesService) {
     }
 
     onSubmit(form: NgForm) {
         if (form.invalid) return;
 
-        const collectionInstance = collection(this.firestore, 'categories');
-        addDoc(collectionInstance, form.value).then((data) => {
-            addDoc(collection(this.firestore, 'categories', data.id, 'salads'), {
-                name: 'cesar salad'
-            }).then(() => { });
-        })
-            .catch((err) => {
+        const categoryData: Category = {
+            category: form.value.category
+        };
+
+        this.categoryService.saveData(categoryData).subscribe({
+            next: () => {
+                console.log('added');
+            },
+            error: err => {
                 console.log(err);
-            });
+            }
+        });
+
+        // const collectionInstance = collection(this.firestore, 'categories');
+        // addDoc(collectionInstance, form.value).then((data) => {
+        //     addDoc(collection(this.firestore, 'categories', data.id, 'salads'), {
+        //         name: 'cesar salad'
+        //     }).then(() => { });
+        // })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
 
         // this.firestore.collection('categories').add(categoryData).then(docRef => 
         //     console.log(docRef))

@@ -1,5 +1,6 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;400;600;800&display=swap');
+@import "~ngx-toastr/toastr";
 
 :root {
     --primary-color: #273b93;
