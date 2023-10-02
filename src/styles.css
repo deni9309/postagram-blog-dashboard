@@ -36,6 +36,11 @@ a:hover {
     text-decoration: underline solid var(--primary-color) 0.4px;
 }
 
+button:disabled {
+    background-color: gray !important;
+    cursor: not-allowed;
+}
+
 .site-logo {
     padding: 0.8rem 1rem;
     border-radius: 0.3rem;
@@ -118,8 +123,10 @@ textarea::placeholder {
     color: white !important;
     font-size: 0.9rem;
     background-color: var(--primary-color);
+    cursor: pointer;
 }
 
 .btn-custom-theme:hover {
     background-color: var(--primary-color-hover);
 }
+

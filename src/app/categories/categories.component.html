@@ -7,13 +7,27 @@
                     <h3 class="text-theme-primary subs-text">New Categories</h3>
                     <p class="text-theme-primary subs-text mb-md-0 mb-4">You can add new categories from here</p>
                 </div>
-                <form class="d-flex col-md-8 col-12 align-items-center gap-2">
-                    <input type="text"
-                           name="name"
-                           autocomplete="off"
-                           class="form-control d-flex"
-                           placeholder="Add New Categories">
-                    <button
+                <form #categoryForm="ngForm"
+                      id="category-create"
+                      (ngSubmit)="onSubmit(categoryForm)"
+                      class="d-flex col-md-8 col-12 align-items-start gap-2">
+                    <div id="field-group"
+                         class="d-flex w-100 justify-content-start flex-column">
+                        <input type="text"
+                               name="category"
+                               autocomplete="off"
+                               class="form-control"
+                               placeholder="Add New Categories"
+                               #category="ngModel"
+                               ngModel
+                               required
+                               [ngClass]="{'is-invalid': category.touched && category.invalid}">
+                        <ng-container *ngIf="category.touched && category.invalid">
+                            <p *ngIf="category.errors?.['required']"
+                               class="text-danger">Category name is required field.</p>
+                        </ng-container>
+                    </div>
+                    <button [disabled]="categoryForm.invalid"
                             class="btn btn-custom-theme col-md-2 col-3 d-flex align-items-center justify-content-center lh-sm">Add
                         Category
                     </button>
@@ -22,3 +36,20 @@
         </div>
     </article>
 </section>
+<!-- <button type="button"
+            (click)="getData()">Get all Categories</button>
+    <ul>
+        <li *ngFor="let i of allCategories"
+            class="text-danger">{{i.id}} - {{i.category}}</li>
+    </ul>
+
+    <ul>
+        <li *ngFor="let item of allCategories$ | async"
+            class="text-danger">
+            {{item.id}} - {{item.category}}
+            <button type="button"
+                    (click)="updateData(item.id)">Edit</button>
+            <button type="button"
+                    (click)="deleteData(item.id)">Delete</button>
+        </li>
+    </ul> -->
