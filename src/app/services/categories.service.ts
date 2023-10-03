@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { DocumentData, Firestore, addDoc, collection, collectionData } from '@angular/fire/firestore';
 import { EMPTY, Observable, from } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
-import { Category } from '../interfaces';
+import { Category, CategoryWithId } from '../interfaces';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +23,11 @@ export class CategoriesService {
             });
 
         return from(onAdd);
+    }
+
+    loadData(): Observable<DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[]> {
+        const collectionInstance = collection(this.firestore, 'categories');
+        return collectionData(collectionInstance, { idField: 'id' });
     }
 
     // saveDataWithSubCollection(data: string) {

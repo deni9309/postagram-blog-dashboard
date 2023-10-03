@@ -7,6 +7,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import {  TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { environment } from 'src/environments/environment.variables';
 import { AppRoutingModule } from './app-routing.module';
@@ -34,6 +35,7 @@ import { CategoriesComponent } from './categories/categories.component';
         provideFirestore(() => getFirestore()),
         FormsModule,
         ToastrModule.forRoot(),
+        TooltipModule.forRoot(),
     ],
     providers: [],
     bootstrap: [ AppComponent ]
