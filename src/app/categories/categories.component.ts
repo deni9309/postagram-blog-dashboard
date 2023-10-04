@@ -1,9 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Firestore, doc, updateDoc, deleteDoc, DocumentData } from '@angular/fire/firestore';
+import { Firestore, doc, deleteDoc, DocumentData } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CategoriesService } from '../services/categories.service';
 import { Category, CategoryWithId } from '../interfaces';
+import { ToastrService } from 'ngx-toastr';
+
+export interface EditMode {
+    value: boolean;
+    categoryId: string | ''
+}
 
 @Component({
     selector: 'app-categories',
@@ -11,14 +17,58 @@ import { Category, CategoryWithId } from '../interfaces';
     styleUrls: [ './categories.component.css' ]
 })
 export class CategoriesComponent implements OnInit {
-    @ViewChild('categoryForm') categoryForm: NgForm;
+    @ViewChild('categoryEditForm') categoryEditForm: NgForm;
 
     allCategories$: Observable<DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[]>;
 
-    constructor(private firestore: Firestore, private categoryService: CategoriesService) { }
+    isInEditMode: EditMode = { value: false, categoryId: '' };
+
+    constructor(
+        private firestore: Firestore,
+        private categoryService: CategoriesService,
+        private toastr: ToastrService
+    ) { }
 
     ngOnInit(): void {
         this.allCategories$ = this.categoryService.loadData();
+    }
+
+    leaveEditMode() {
+        this.isInEditMode = {
+            value: false,
+            categoryId: ''
+        }
+    }
+
+    enterEditMode(categoryDoc: DocumentData): void {
+        this.isInEditMode = {
+            value: true,
+            categoryId: categoryDoc[ 'id' ]
+        }
+
+        setTimeout(() => {
+            this.categoryEditForm.form.patchValue({
+                id: categoryDoc[ 'id' ],
+                category: categoryDoc[ 'category' ]
+            });
+        });
+    }
+
+    onEditSubmit(form: NgForm) {
+        if (form.invalid) return;
+
+        const data: CategoryWithId = {
+            id: form.value.id,
+            category: form.value.category,
+        };
+
+        this.categoryService.updateData(data).subscribe({
+            next: () => {
+                this.leaveEditMode();
+                form.reset();
+            },
+            error: err => { console.log(err); }
+        });
     }
 
     onSubmit(form: NgForm): void {
@@ -34,19 +84,8 @@ export class CategoriesComponent implements OnInit {
         });
     }
 
-    updateData(id: string) {
-        const docInstance = doc(this.firestore, 'categories', id);
-        const updateData = {
-            category: 'This is updated category'
-        };
+    onDelete(id: string) {
 
-        updateDoc(docInstance, updateData)
-            .then(() => {
-                console.log('updated!!!');
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
     deleteData(id: string) {
@@ -55,6 +94,4 @@ export class CategoriesComponent implements OnInit {
             .then(() => console.log('Deleted!'))
             .catch((err) => { console.log(err) });
     }
-
-    
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, Firestore, addDoc, collection, collectionData } from '@angular/fire/firestore';
+import { DocumentData, Firestore, addDoc, collection, collectionData, doc, updateDoc } from '@angular/fire/firestore';
 import { EMPTY, Observable, from } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
@@ -27,8 +27,21 @@ export class CategoriesService {
 
     loadData(): Observable<DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[]> {
         const collectionInstance = collection(this.firestore, 'categories');
+        
         return collectionData(collectionInstance, { idField: 'id' });
     }
+
+    updateData(data: DocumentData | CategoryWithId): Observable<void> {
+        const docInstance = doc(this.firestore, 'categories', data.id);
+        const updatedDoc = updateDoc(docInstance, { category: data[ 'category' ] })
+            .then(() => {
+                this.toastr.info('Category updated successfully!');
+            })
+            .catch(err => { console.log(err); this.toastr.error(err); });
+
+        return from(updatedDoc);
+    }
+
 
     // saveDataWithSubCollection(data: string) {
     //     const collectionInstance = collection(this.firestore, 'categories');

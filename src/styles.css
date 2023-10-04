@@ -39,7 +39,7 @@ a:hover {
 
 button:disabled {
     background-color: gray !important;
-    cursor: not-allowed;
+    cursor: not-allowed !important;
 }
 
 .site-logo {
