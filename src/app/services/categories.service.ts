@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, Firestore, addDoc, collection, collectionData, doc, updateDoc } from '@angular/fire/firestore';
-import { EMPTY, Observable, from } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+import { DocumentData, DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
+import { Observable, from } from 'rxjs';
 
 import { Category, CategoryWithId } from '../interfaces';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: 'root'
@@ -12,22 +12,16 @@ export class CategoriesService {
 
     constructor(private firestore: Firestore, private toastr: ToastrService) { }
 
-    saveData(data: Category): Observable<void> {
+    saveData(data: Category): Observable<DocumentData | DocumentReference<DocumentData> | void> {
         const collectionInstance = collection(this.firestore, 'categories');
-        const onAdd = addDoc(collectionInstance, data)
-            .then(docRef => {
-                this.toastr.success('Category added successfully!');
-            })
-            .catch((err) => {
-                this.toastr.error(err);
-            });
+        const onAdd = addDoc(collectionInstance, data);
 
         return from(onAdd);
     }
 
     loadData(): Observable<DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[]> {
         const collectionInstance = collection(this.firestore, 'categories');
-        
+
         return collectionData(collectionInstance, { idField: 'id' });
     }
 
@@ -37,11 +31,28 @@ export class CategoriesService {
             .then(() => {
                 this.toastr.info('Category updated successfully!');
             })
-            .catch(err => { console.log(err); this.toastr.error(err); });
+            .catch(err => {
+                this.toastr.error('Category hasn\'t been updated!', 'Something went wrong!');
+                console.log(err);       
+            });
 
         return from(updatedDoc);
     }
 
+    deleteData(id: string): Observable<void> {
+        const docInstance = doc(this.firestore, 'categories', id);
+
+        const onDelete = deleteDoc(docInstance)
+            .then(() => {
+                this.toastr.info('Category deleted successfully!');
+            })
+            .catch(err => {
+                this.toastr.error('Category hasn\'t been deleted!', 'Something went wrong!');
+                console.log(err);  
+            });
+
+        return from(onDelete);
+    }
 
     // saveDataWithSubCollection(data: string) {
     //     const collectionInstance = collection(this.firestore, 'categories');

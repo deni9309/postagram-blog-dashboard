@@ -1,0 +1,103 @@
+<div class="parallax bg-light py-5">
+    <section id="post-create-section"
+             class="d-flex flex-column align-items-center shadow-effect my-5">
+        <article class="card mx-2 border-0 rounded">
+            <div class="parallax-border rounded-top"></div>
+            <div class="d-flex flex-column card-body align-items-center justify-content-center my-md-3 my-3">
+                <div class="text-center">
+                    <h3 class="text-theme-primary">Add New Post</h3>
+                    <p class="text-theme-primary">Please fill out all fields.</p>
+                    <hr class="mb-4">
+                </div>
+                <form #postForm="ngForm"
+                      id="post-create"
+                      (ngSubmit)="onSubmit(postForm)"
+                      class="row col-12">
+                    <div class="d-flex flex-column col-12 col-md-7">
+                        <div class="field-group d-flex w-100 justify-content-start flex-column">
+                            <input type="text"
+                                   name="title"
+                                   autocomplete="off"
+                                   class="form-control"
+                                   placeholder="Post Title"
+                                   ngModel
+                                   #title="ngModel"
+                                   required
+                                   [ngClass]="{'is-invalid': title.touched && title.invalid}">
+                            <ng-container *ngIf="title.touched && title.invalid">
+                                <p *ngIf="title.errors?.['required']"
+                                   class="text-danger">Post Title is required field.</p>
+                            </ng-container>
+                        </div>
+
+                        <div class="field-group d-flex w-100 justify-content-start flex-column">
+                            <input type="text"
+                                   name="permalink"
+                                   autocomplete="off"
+                                   class="form-control"
+                                   placeholder="Permalink"
+                                   ngModel
+                                   #permalink="ngModel"
+                                   required
+                                   [ngClass]="{'is-invalid': permalink.touched && permalink.invalid}">
+                            <ng-container *ngIf="permalink.touched && permalink.invalid">
+                                <p *ngIf="permalink.errors?.['required']"
+                                   class="text-danger">Permalink is required field.</p>
+                            </ng-container>
+                        </div>
+
+                        <div id="textarea-group"
+                             class="d-flex w-100 justify-content-start flex-column">
+                            <textarea type="text"
+                                      name="excerpt"
+                                      class="form-control"
+                                      placeholder="Excerpt"
+                                      ngModel
+                                      #excerpt="ngModel"
+                                      required
+                                      [ngClass]="{'is-invalid': excerpt.touched && excerpt.invalid}"></textarea>
+                            <ng-container *ngIf="excerpt.touched && excerpt.invalid">
+                                <p *ngIf="excerpt.errors?.['required']"
+                                   class="text-danger">Excerpt is required field.</p>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column col-md-5 col-12 align-items-center">
+
+                        <div class="field-group d-flex w-100 justify-content-start flex-column">
+                            <select class="form-select"
+                                    aria-label="select category">
+                                <option selected
+                                        disabled
+                                        value="">Please, select a post category</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+
+                        <div id="file-group" class="d-flex w-100 justify-content-start flex-column">
+                            <div>
+                                <label for="formFile"
+                                       class="form-label">Default file input example</label>
+                                <input class="form-control" id="formFile"
+                                       type="file">
+                            </div>
+                        </div>
+
+                        <div id="button-group"
+                             class="d-flex gap-2 mt-md-0 mt-2">
+                            <button [disabled]="postForm.invalid"
+                                    class="btn btn-custom-theme lh-sm">Add Post</button>
+                            <button type="button"
+                                    routerLink="/posts"
+                                    class="btn btn-outline-custom-theme">Cancel</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </article>
+    </section>
+</div>

@@ -1,0 +1,79 @@
+/* ----------- post-create-section ------------------------*/
+.parallax {
+    background-image: url('src/assets/all-categories-background.jpg');
+    background-blend-mode: luminosity;
+}
+
+.card {
+    background-color: var(--secondary-color-90);
+    padding-left: 10px;
+    padding-right: 10px;
+    min-width: 70% !important;
+}
+
+.parallax-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('src/assets/bright-accent.jpg');
+    height: 10px;
+    width: 100% !important;
+}
+
+form {
+    width: 100%;
+}
+
+form div.field-group {
+    height: 62px;
+}
+
+form div input,
+form div select {
+    height: 40px !important;
+}
+
+form div#textarea-group {
+    min-height: 172px;
+}
+
+form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+form div#file-group {
+    color: var(--body-text-color);
+    min-height: 90px;
+}
+
+form div#file-group .form-label {
+    display: flex;
+    color: white;
+    background-color: var(--body-text-color);
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+    font-size: 1rem;
+    padding: 4px 11px 4px 11px;
+    margin-bottom: 0;
+}
+
+form div#file-group input[type="file"] {
+    height: fit-content !important;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+p.text-danger {
+    padding: 0.1rem;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.is-invalid {
+    box-shadow: 0px 0px 8px -1px inset red !important;
+}
+
+.btn-custom-theme {
+    height: 40px !important;
+}

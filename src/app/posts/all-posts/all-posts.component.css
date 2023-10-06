@@ -1,0 +1,16 @@
+.parallax {
+    background-image: url('src/assets/sea.jpg');
+    background-blend-mode: luminosity;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+section div.card {
+    background-color: var(--secondary-color-90);
+}
+
+button+button{
+    margin-left: 4px;
+}
+

@@ -5,11 +5,21 @@
 :root {
     --primary-color: #273b93;
     --primary-color-hover: #5062b1;
+
     --secondary-color: #e5f1f5;
+    --secondary-color-90: rgba(229, 241, 245, 0.9);
     --secondary-color-hover: #c5edfb;
+
     --body-text-color: #596392;
     --navbar-footer-color: #f9f9f9;
-    --accent-color: #e9df00;
+
+    --light-color-90: rgba(247, 247, 247, 0.9);
+
+    --accent-color: #fff75b;
+    --accent-color-90: rgba(255, 247, 91, 0.9);
+    --accent-color-hover: #ffe202;
+    --accent-text-color: #8a7a00;
+
     --shadow-color: #eaefff;
     --shadow-effect-color: #4f65ae;
 }
@@ -80,19 +90,31 @@ button:disabled {
     background-color: var(--navbar-footer-color);
 }
 
+.bg-accent-theme {
+    background-color: var(--accent-color);
+}
+
 .text-theme-primary {
     color: var(--primary-color);
 }
 
+.text-theme-accent {
+    color: var(--accent-text-color);
+}
 
 /*--- forms ---*/
-input {
+input,
+select {
     height: 50px;
     width: 100%;
     padding-left: 20px;
     color: var(--body-text-color) !important;
     border: 0 !important;
     box-shadow: 0px 0px 8px -1px inset gainsboro !important;
+}
+
+option {
+    background-color: var(--secondary-color);
 }
 
 form textarea {
@@ -131,3 +153,16 @@ textarea::placeholder {
     background-color: var(--primary-color-hover);
 }
 
+.btn-outline-custom-theme {
+    min-height: 40px;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+}
+
+.btn-outline-custom-theme:hover {
+    background-color: var(--primary-color-hover);
+    color: white;
+}

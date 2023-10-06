@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Firestore, doc, deleteDoc, DocumentData } from '@angular/fire/firestore';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { DocumentData } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 import { CategoriesService } from '../services/categories.service';
 import { Category, CategoryWithId } from '../interfaces';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 export interface EditMode {
     value: boolean;
@@ -23,17 +26,21 @@ export class CategoriesComponent implements OnInit {
 
     isInEditMode: EditMode = { value: false, categoryId: '' };
 
+    modalRef: BsModalRef;
+    config = { animated: true, class: 'modal-sm' };
+    categoryIdToDelete: string = '';
+
     constructor(
-        private firestore: Firestore,
         private categoryService: CategoriesService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private modalService: BsModalService,
     ) { }
 
     ngOnInit(): void {
         this.allCategories$ = this.categoryService.loadData();
     }
 
-    leaveEditMode() {
+    leaveEditMode(): void {
         this.isInEditMode = {
             value: false,
             categoryId: ''
@@ -45,7 +52,6 @@ export class CategoriesComponent implements OnInit {
             value: true,
             categoryId: categoryDoc[ 'id' ]
         }
-
         setTimeout(() => {
             this.categoryEditForm.form.patchValue({
                 id: categoryDoc[ 'id' ],
@@ -62,36 +68,52 @@ export class CategoriesComponent implements OnInit {
             category: form.value.category,
         };
 
-        this.categoryService.updateData(data).subscribe({
-            next: () => {
-                this.leaveEditMode();
-                form.reset();
-            },
-            error: err => { console.log(err); }
+        this.categoryService.updateData(data).subscribe(() => {
+            form.reset();
+            this.leaveEditMode();
         });
     }
 
     onSubmit(form: NgForm): void {
         if (form.invalid) return;
-
         const categoryData: Category = {
             category: form.value.category
         };
 
         this.categoryService.saveData(categoryData).subscribe({
-            next: () => { form.reset(); },
-            error: err => { console.log(err); }
+            next: () => {
+                this.toastr.success('Category created successfully!');
+                form.reset();
+            },
+            error: (err) => {
+                this.toastr.error('Category hasn\'t been created!', 'Something went wrong!');
+                form.reset();
+                console.log(err);
+            }
         });
     }
 
-    onDelete(id: string) {
-
+    onDeleteClick(id: string, template: TemplateRef<any>) {
+        this.categoryIdToDelete = id;
+        
+        this.modalRef = this.modalService.show(template, this.config);
     }
 
-    deleteData(id: string) {
-        const docInstance = doc(this.firestore, 'categories', id);
-        deleteDoc(docInstance)
-            .then(() => console.log('Deleted!'))
-            .catch((err) => { console.log(err) });
+    onDeleteConfirm() {
+        this.categoryService.deleteData(this.categoryIdToDelete).subscribe({
+            next: () => {
+                console.log(this.categoryIdToDelete);
+                
+                this.categoryIdToDelete = '';
+                console.log('Category deleted');
+            }
+        });
+
+        this.modalRef.hide();
+    }
+
+    onDeleteDecline() {
+        this.categoryIdToDelete = '';
+        this.modalRef.hide();
     }
 }

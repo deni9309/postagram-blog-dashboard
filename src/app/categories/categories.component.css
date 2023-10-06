@@ -32,18 +32,19 @@ p.text-danger {
 /*--------------------- all-categories-section------------------*/
 /*-------------table----------------*/
 section#all-categories {
-    background-color: darkslategray;
+    background-color: whitesmoke;
+    border-top: 10px solid;
 }
 
 .parallax {
     background-image: url("src/assets/featured-section.jpg");
-    background-blend-mode: screen;
+    background-blend-mode: luminosity;
     alt: 'Beach background image';
 }
 
 table {
     max-width: 800px;
-    background-color: var(--navbar-footer-color);
+    background-color: var(--light-color-90);
     border-radius: 0.3rem;
 }
 

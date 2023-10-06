@@ -1,8 +1,31 @@
+.parallax {
+    background-image: url('src/assets/maldives-beach.jpg');
+    min-height: 400px;
+    alt: 'dark buildings';
+    background-blend-mode: luminosity;
+    display: flex;
+    align-items: center;
+}
+
 .card {
     height: 200px;
     cursor: pointer;
 }
 
-.card:hover div.card-body {
+#flex-container > div:first-of-type .card {
+    color: var(--primary-color);
+    background-color: var(--secondary-color-90);
+}
+
+#flex-container > div:first-of-type .card:hover div.card-body {
     background-color: var(--secondary-color-hover);
+}
+
+#flex-container > div:not(:first-of-type) .card {
+    color: var(--accent-text-color);
+    background-color: var(--accent-color-90);
+}
+
+#flex-container > div:not(:first-of-type) .card:hover div.card-body {
+    background-color: var(--accent-color-hover);
 }
