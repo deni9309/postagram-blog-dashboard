@@ -22,6 +22,8 @@
 
 form {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 form div.field-group {
@@ -33,13 +35,18 @@ form div select {
     height: 40px !important;
 }
 
-form div#textarea-group {
+form div#textarea-group-excerpt,
+form div#textarea-group-content {
     min-height: 172px;
 }
 
 form textarea {
     min-height: 150px;
     resize: vertical;
+}
+
+form div#textarea-group-excerpt textarea {
+    resize: none;
 }
 
 form div#file-group {
@@ -60,8 +67,25 @@ form div#file-group .form-label {
 
 form div#file-group input[type="file"] {
     height: fit-content !important;
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
+    border-radius: 0;
+    border-radius: 0;
+}
+
+form div#file-group img.form-control {
+    background-color: rgba(245, 245, 245, 0.5);
+    border: 2px solid  whitesmoke !important;
+    border-top: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    
+}
+
+.img-custom {
+    height: 144px;
+    background-size: contain;
+    object-fit: scale-down;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 p.text-danger {
@@ -76,4 +100,10 @@ p.text-danger {
 
 .btn-custom-theme {
     height: 40px !important;
+}
+
+@media screen and (max-width:800px) {
+    .form-control.img-custom {
+        margin-bottom: 21px;
+    }
 }

@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -41,6 +41,7 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideFirestore(() => getFirestore()),
         FormsModule,
+        ReactiveFormsModule,
         ToastrModule.forRoot(),
         TooltipModule.forRoot(),
         ModalModule.forRoot()
