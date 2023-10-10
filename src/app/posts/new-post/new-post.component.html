@@ -8,16 +8,16 @@
             <div class="parallax-border rounded-top"></div>
             <div class="d-flex flex-column card-body align-items-center justify-content-center my-md-3 my-3">
                 <div class="text-center">
-                    <h3 class="text-theme-primary">Add New Post</h3>
+                    <h3 class="text-theme-primary">Create New Post</h3>
                     <p class="text-theme-primary">Please fill out all fields.</p>
                     <hr class="mb-4">
                 </div>
 
                 <!-- create post form -->
-                <form #postForm="ngForm"
+                <form [formGroup]="postForm"
                       name="postForm"
                       id="post-create"
-                      (ngSubmit)="onSubmit(postForm)">
+                      (ngSubmit)="onSubmit()">
 
                     <!-- first row -->
                     <div class="row col-md-12 m-0 justify-content-around">
@@ -27,44 +27,47 @@
                                 <input type="text"
                                        name="title"
                                        id="title"
-                                       autocomplete="off"
-                                       class="form-control"
                                        placeholder="Post Title"
-                                       ngModel
-                                       #title="ngModel"
-                                       (ngModelChange)="title"
-                                       required
-                                       [ngClass]="{'is-invalid': title.touched && title.invalid}">
-                                <ng-container *ngIf="title.touched && title.invalid">
-                                    <p *ngIf="title.errors?.['required']"
-                                       class="text-danger">Post Title is required field.</p>
+                                       class="form-control"
+                                       formControlName="title"
+                                       (keyup)="onTitleChanged($event)"
+                                       [ngClass]="{'is-invalid': fc.title.touched && fc.title.invalid}">
+                                <ng-container *ngIf="fc.title.touched && fc.title.invalid">
+                                    <p *ngIf="fc.title.errors?.['required']"
+                                       class="text-danger ps-2">Title is required.</p>
+                                    <p *ngIf="fc.title.errors?.['minlength']"
+                                       class="text-danger ps-2">Title must be at least 6 characters long.</p>
                                 </ng-container>
                             </div>
                             <div class="field-group d-flex w-100 justify-content-start flex-column">
                                 <input type="text"
+                                       id="permalink"
                                        name="permalink"
-                                       autocomplete="off"
                                        class="form-control"
                                        placeholder="Permalink"
-                                       ngModel
-                                       #permalink="ngModel"
-                                       [(ngModel)]="permalinkTitle"
-                                       disabled
-                                       required>
+                                       tooltip="The URL for your post."
+                                       
+                                       formControlName="permalink"
+                                       [value]="permalink"
+                                       [ngClass]="{'is-invalid': fc.permalink.touched && fc.permalink.invalid}">
+                                <ng-container *ngIf="fc.permalink.touched && fc.permalink.invalid">
+                                    <p *ngIf="fc.permalink.errors?.['required']"
+                                       class="text-danger ps-2">Permalink is required.</p>
+                                </ng-container>
                             </div>
                             <div id="textarea-group-excerpt"
                                  class="d-flex w-100 justify-content-start flex-column">
                                 <textarea type="text"
                                           name="excerpt"
                                           class="form-control"
-                                          placeholder="Excerpt"
-                                          ngModel
-                                          #excerpt="ngModel"
-                                          required
-                                          [ngClass]="{'is-invalid': excerpt.touched && excerpt.invalid}"></textarea>
-                                <ng-container *ngIf="excerpt.touched && excerpt.invalid">
-                                    <p *ngIf="excerpt.errors?.['required']"
-                                       class="text-danger">Excerpt is required field.</p>
+                                          placeholder="Excerpt (summary of your post)"
+                                          formControlName="excerpt"
+                                          [ngClass]="{'is-invalid': fc.excerpt.touched && fc.excerpt.invalid}"></textarea>
+                                <ng-container *ngIf="fc.excerpt.touched && fc.excerpt.invalid">
+                                    <p *ngIf="fc.excerpt.errors?.['required']"
+                                       class="text-danger ps-2">Excerpt is required.</p>
+                                    <p *ngIf="fc.excerpt.errors?.['minlength']"
+                                       class="text-danger ps-2">Excerpt must be at least 20 characters long.</p>
                                 </ng-container>
                             </div>
                         </div>
@@ -72,17 +75,21 @@
                         <!--second column-->
                         <div class="d-flex flex-column col-md-5 col-12">
                             <div class="field-group d-flex w-100 justify-content-start flex-column">
-                                <select class="form-select">
+                                <select class="form-select"
+                                        formControlName="category">
                                     <option selected
                                             disabled
                                             value="">Please, select a post category</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option *ngFor="let category of categories"
+                                            value="{{category['id']}}">{{category['category']}}</option>
                                 </select>
+                                <ng-container *ngIf="fc.category.touched && fc.category.invalid">
+                                    <p *ngIf="fc.category.errors?.['required']"
+                                       class="text-danger ps-2">Category must be selected from the list above.</p>
+                                </ng-container>
                             </div>
                             <div id="file-group"
-                                 class="d-flex w-100 justify-content-start flex-column">
+                                 class="d-flex w-100 justify-content-start flex-column mb-0">
                                 <div>
                                     <label for="formFile"
                                            class="form-label">Post Image</label>
@@ -90,8 +97,16 @@
                                            id="formFile"
                                            type="file"
                                            accept="image/*"
-                                           (change)="showImagePreview($event)">
-                                           <img [src]="imgSrc" class="form-control bg-light-theme img-custom rounded" alt="Post image">
+                                           formControlName="postImg"
+                                           (change)="showImagePreview($event)"
+                                           [ngClass]="{'is-invalid': fc.postImg.touched && fc.postImg.invalid}">
+                                    <img [src]="imgSrc"
+                                         class="form-control bg-light-theme img-custom rounded"
+                                         alt="Post image">
+                                    <ng-container *ngIf="fc.postImg.touched && fc.postImg.invalid">
+                                        <p *ngIf="fc.postImg.errors?.['required']"
+                                           class="text-danger ps-2">Please, upload an image for your post.</p>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -102,17 +117,13 @@
                         <div class="d-flex flex-column col-md-12">
                             <div id="textarea-group-content"
                                  class="d-flex w-100 justify-content-start flex-column">
-                                <textarea type="text"
-                                          name="content"
-                                          class="form-control"
-                                          placeholder="Post content"
-                                          ngModel
-                                          #content="ngModel"
-                                          required
-                                          [ngClass]="{'is-invalid': content.touched && content.invalid}"></textarea>
-                                <ng-container *ngIf="content.touched && content.invalid">
-                                    <p *ngIf="content.errors?.['required']"
-                                       class="text-danger">Post content is required field.</p>
+                                <angular-editor class="form-control pt-2"
+                                                placeholder="Add your content here..."
+                                                formControlName="content"></angular-editor>
+
+                                <ng-container *ngIf="fc.content.touched && fc.content.invalid">
+                                    <p *ngIf="fc.content.errors?.['required']"
+                                       class="text-danger ps-2">Please, enter content for your post.</p>
                                 </ng-container>
                             </div>
                             <hr class="mt-1 mb-4">

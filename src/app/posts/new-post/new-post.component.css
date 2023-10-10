@@ -35,8 +35,7 @@ form div select {
     height: 40px !important;
 }
 
-form div#textarea-group-excerpt,
-form div#textarea-group-content {
+form div#textarea-group-excerpt {
     min-height: 172px;
 }
 
@@ -51,7 +50,7 @@ form div#textarea-group-excerpt textarea {
 
 form div#file-group {
     color: var(--body-text-color);
-    min-height: 90px;
+    min-height: 236px;
 }
 
 form div#file-group .form-label {
@@ -73,11 +72,11 @@ form div#file-group input[type="file"] {
 
 form div#file-group img.form-control {
     background-color: rgba(245, 245, 245, 0.5);
-    border: 2px solid  whitesmoke !important;
+    border: 2px solid whitesmoke !important;
     border-top: 0 !important;
     border-top-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
-    
+
 }
 
 .img-custom {
@@ -91,6 +90,8 @@ form div#file-group img.form-control {
 p.text-danger {
     padding: 0.1rem;
     font-size: 0.8rem;
+    color: darkred !important;
+    letter-spacing: 1.1px;
     margin: 0;
 }
 
@@ -103,7 +104,28 @@ p.text-danger {
 }
 
 @media screen and (max-width:800px) {
-    .form-control.img-custom {
+    form div#file-group {
         margin-bottom: 21px;
+    }
+
+    form div#file-group p.text-danger {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    form#post-create div#textarea-group-content {
+        min-height: 264px;
+    }
+}
+
+@media screen and (max-width:1199px) {
+    form div#textarea-group-content {
+            min-height: 270px;
+        }
+}
+
+@media screen and (min-width:1200px) {
+    form div#textarea-group-content {
+        min-height: 238px;
     }
 }

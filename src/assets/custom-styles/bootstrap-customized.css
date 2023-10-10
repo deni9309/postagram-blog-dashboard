@@ -1,0 +1,26 @@
+
+/*------------- bs-tooltip - disabled transform on show -----------------------*/
+
+bs-tooltip-container[style] {
+    top: 175px !important;
+    left: 100px !important;
+    transform: none !important;
+}
+
+.tooltip {
+    opacity: 0 !important;
+    transition: opacity 1s ease-out !important;
+}
+
+.tooltip-inner {
+    background-color: var(--body-text-color) !important;
+}
+
+.tooltip-arrow.arrow::before {
+    border-top-color: var(--body-text-color) !important;
+}
+
+.tooltip.show {
+    opacity: 1 !important;
+    transition: all 1s ease-out !important;
+}

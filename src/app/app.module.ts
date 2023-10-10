@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { AngularFireModule } from '@angular/fire/compat';
-//import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';  //import { AngularFireModule } from '@angular/fire/compat'; //import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -36,15 +37,15 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        // AngularFireModule.initializeApp(environment.firebaseConfig), 
-        // AngularFirestoreModule,
-        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // AngularFireModule.initializeApp(environment.firebaseConfig), // AngularFirestoreModule,
         provideFirestore(() => getFirestore()),
+        HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
         ToastrModule.forRoot(),
         TooltipModule.forRoot(),
-        ModalModule.forRoot()
+        ModalModule.forRoot(),
+        AngularEditorModule
     ],
     providers: [],
     bootstrap: [ AppComponent ]

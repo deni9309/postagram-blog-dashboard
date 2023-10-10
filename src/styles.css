@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;400;600;800&display=swap');
 @import "~ngx-toastr/toastr";
 
+@import url('./assets/custom-styles/bootstrap-customized.css');
+
 :root {
     --primary-color: #273b93;
     --primary-color-hover: #5062b1;
@@ -113,6 +115,12 @@ select {
     box-shadow: 0px 0px 8px -1px inset gainsboro !important;
 }
 
+input[type="file"]::-webkit-file-upload-button {
+    border-color: gainsboro !important;
+    background-color: whitesmoke;
+    color: var(--body-text-color) !important;
+}
+
 option {
     background-color: var(--secondary-color);
 }
@@ -165,4 +173,27 @@ textarea::placeholder {
 .btn-outline-custom-theme:hover {
     background-color: var(--primary-color-hover);
     color: white;
+}
+
+/* ----------------- kolkov/angular-editor ---------------------*/
+div.angular-editor-toolbar {
+    border-radius: 0.3rem;
+}
+
+div.angular-editor-textarea {
+    min-height: 150px !important;
+    border-radius: 0.3rem;
+    box-shadow: 0px 0px 8px -1px inset gainsboro !important;
+}
+
+div.angular-editor-textarea:focus,
+div.angular-editor-textarea:hover {
+    outline: none !important;
+    box-shadow: 0px 0px 14px -8px inset var(--primary-color) !important;
+}
+
+div.angular-editor-textarea::placeholder {
+    font-weight: bold;
+
+    color: var(--body-text-color);
 }
