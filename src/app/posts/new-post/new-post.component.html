@@ -45,8 +45,7 @@
                                        name="permalink"
                                        class="form-control"
                                        placeholder="Permalink"
-                                       tooltip="The URL for your post."
-                                       
+                                       tooltip="The URL for your post"
                                        formControlName="permalink"
                                        [value]="permalink"
                                        [ngClass]="{'is-invalid': fc.permalink.touched && fc.permalink.invalid}">
@@ -76,12 +75,13 @@
                         <div class="d-flex flex-column col-md-5 col-12">
                             <div class="field-group d-flex w-100 justify-content-start flex-column">
                                 <select class="form-select"
-                                        formControlName="category">
+                                        formControlName="category"
+                                        [ngClass]="{'is-invalid': fc.category.touched && fc.category.invalid}">
                                     <option selected
                                             disabled
                                             value="">Please, select a post category</option>
                                     <option *ngFor="let category of categories"
-                                            value="{{category['id']}}">{{category['category']}}</option>
+                                            value="{{category['id']}}-{{category['category']}}">{{category['category']}}</option>
                                 </select>
                                 <ng-container *ngIf="fc.category.touched && fc.category.invalid">
                                     <p *ngIf="fc.category.errors?.['required']"

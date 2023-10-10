@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormBuilder, NgModel, Validators } from '@angular/forms';
 
-import { Category, CategoryWithId } from 'src/app/interfaces';
+import { Category, CategoryWithId, Post } from 'src/app/interfaces';
 import { CategoriesService } from 'src/app/services/categories.service';
 
 @Component({
@@ -62,5 +62,22 @@ export class NewPostComponent implements OnInit {
 
     onSubmit() {
         if (this.postForm.invalid) return;
+
+        const postData: Post = {
+            title: this.postForm.value.title,
+            permalink: this.postForm.value.permalink,
+            category: {
+                categoryId: this.postForm.value.category.split('-').at(0),
+                category: this.postForm.value.category.split('-').at(1)
+            },
+            postImgPath: '',
+            excerpt: this.postForm.value.excerpt,
+            content: this.postForm.value.content,
+            isFeatured: false,
+            views: 0,
+            status: 'new',
+            createdAt: new Date()
+        }
+
     }
 }
