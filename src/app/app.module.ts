@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';  //import { AngularFireModule } from '@angular/fire/compat'; //import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { HttpClientModule } from '@angular/common/http';
@@ -40,7 +40,7 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
         AppRoutingModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // AngularFireModule.initializeApp(environment.firebaseConfig), // AngularFirestoreModule,
         provideFirestore(() => getFirestore()),
-        provideStorage(() => getStorage()),
+        provideStorage(() => getStorage(getApp())),
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,

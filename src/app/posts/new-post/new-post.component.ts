@@ -4,6 +4,7 @@ import { FormBuilder, NgModel, Validators } from '@angular/forms';
 
 import { Category, CategoryWithId, Post } from 'src/app/interfaces';
 import { CategoriesService } from 'src/app/services/categories.service';
+import { PostsService } from 'src/app/services/posts.service';
 
 @Component({
     selector: 'app-new-post',
@@ -30,14 +31,16 @@ export class NewPostComponent implements OnInit {
 
     categories: DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[] | Category[];
 
-    constructor(private fb: FormBuilder, private categoryService: CategoriesService) { }
+    constructor(
+        private fb: FormBuilder,
+        private categoryService: CategoriesService,
+        private postService: PostsService
+    ) { }
 
     ngOnInit(): void {
         this.categoryService.loadData()
             .subscribe({
-                next: (data) => {
-                    this.categories = data;
-                }
+                next: (data) => { this.categories = data; }
             });
     }
 
@@ -79,5 +82,6 @@ export class NewPostComponent implements OnInit {
             createdAt: new Date()
         }
 
+        this.postService.uploadImage(this.selectedImg);
     }
 }
