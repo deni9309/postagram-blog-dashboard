@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';  //import { AngularFireModule } from '@angular/fire/compat'; //import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { provideStorage, getStorage } from '@angular/fire/storage';
+
+import { FirebaseApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';  //import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { StorageModule, provideStorage, getStorage } from '@angular/fire/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,6 +24,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AllPostsComponent } from './posts/all-posts/all-posts.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
 
+let app: FirebaseApp;
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -38,18 +41,20 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
+        HttpClientModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // AngularFireModule.initializeApp(environment.firebaseConfig), // AngularFirestoreModule,
         provideFirestore(() => getFirestore()),
-        provideStorage(() => getStorage(getApp())),
-        HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
         ToastrModule.forRoot(),
         TooltipModule.forRoot(),
         ModalModule.forRoot(),
-        AngularEditorModule
+        AngularEditorModule,
+        // provideStorage(() => getStorage(app)),
+        StorageModule
     ],
-    providers: [],
+    providers: [    
+    ],
     bootstrap: [ AppComponent ]
 })
 export class AppModule { }

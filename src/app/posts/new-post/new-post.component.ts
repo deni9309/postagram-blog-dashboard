@@ -12,6 +12,7 @@ import { PostsService } from 'src/app/services/posts.service';
     styleUrls: [ './new-post.component.css' ]
 })
 export class NewPostComponent implements OnInit {
+
     permalink: string = '';
 
     imgSrc: string | ArrayBuffer | DataView | URL = 'assets/image-not-uploaded.png';
