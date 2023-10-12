@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormBuilder, NgModel, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 import { Category, CategoryWithId, Post } from 'src/app/interfaces';
 import { CategoriesService } from 'src/app/services/categories.service';
@@ -12,11 +13,10 @@ import { PostsService } from 'src/app/services/posts.service';
     styleUrls: [ './new-post.component.css' ]
 })
 export class NewPostComponent implements OnInit {
-
     permalink: string = '';
 
     imgSrc: string | ArrayBuffer | DataView | URL = 'assets/image-not-uploaded.png';
-    selectedImg: string | ArrayBuffer | DataView | URL | File;
+    selectedImg: ArrayBuffer | Blob | Uint8Array;
 
     postForm = this.fb.group({
         title: [ '', [ Validators.required, Validators.minLength(6) ] ],
@@ -35,7 +35,8 @@ export class NewPostComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private categoryService: CategoriesService,
-        private postService: PostsService
+        private postService: PostsService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -67,7 +68,7 @@ export class NewPostComponent implements OnInit {
     onSubmit() {
         if (this.postForm.invalid) return;
 
-        const postData: Post = {
+        let postData: Post = {
             title: this.postForm.value.title,
             permalink: this.postForm.value.permalink,
             category: {
@@ -83,6 +84,13 @@ export class NewPostComponent implements OnInit {
             createdAt: new Date()
         }
 
-        this.postService.uploadImage(this.selectedImg);
+        this.postService.uploadImage(this.selectedImg)
+            .then(url => {
+                postData.postImgPath = url;
+            })
+            .catch(err => {
+                this.toastr.error('Sorry, an error occured! Please try again.');
+                return;
+            });
     }
 }
