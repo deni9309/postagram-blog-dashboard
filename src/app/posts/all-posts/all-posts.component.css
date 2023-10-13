@@ -1,7 +1,11 @@
+section#posts-hero{
+    border-bottom: 10px solid var(--body-text-color);
+}
+
 .parallax {
-    background-image: url('src/assets/sea.jpg');
+    background-image: url('src/assets/maldives-beach.jpg');
     background-blend-mode: luminosity;
-    min-height: 400px;
+    min-height: 300px;
     display: flex;
     align-items: center;
 }
@@ -10,7 +14,51 @@ section div.card {
     background-color: var(--secondary-color-90);
 }
 
-button+button{
+button + button {
     margin-left: 4px;
 }
 
+/*------post card-----------*/
+#all-posts .card {
+    max-width: 800px;
+    min-width: 300px;
+}
+
+#all-posts .card-body p,
+#all-posts .card-body small {
+    font-size: 0.95rem;
+}
+
+.card-body small+small{
+    margin-left: 4px;
+}
+
+#all-posts .card:hover {
+    scale: 1.03;
+}
+
+#all-posts article h5 {
+    text-transform: uppercase;
+    font-size: 1em;
+}
+
+section#all-posts {
+    padding-left: 1.2rem;
+    padding-bottom: 1rem;
+    padding-right: 1.2rem;
+}
+
+@media screen and (max-width:800px) {
+    #all-post article.card section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media screen and (max-width:800px) {
+    :host > section.featured-section#featured-section {
+        padding-left: 0.5rem;
+        padding-bottom: 1rem;
+        padding-right: 0.5rem;
+    }
+}

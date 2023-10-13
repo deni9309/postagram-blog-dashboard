@@ -1,5 +1,5 @@
 export interface CategoryWithId {
     id: string;
     category: string;
-    isInEditMode?: boolean | false
+    isInEditMode?: boolean;
 }

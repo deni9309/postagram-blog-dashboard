@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { FormBuilder, NgModel, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { Category, CategoryWithId, Post } from 'src/app/interfaces';
@@ -36,7 +37,8 @@ export class NewPostComponent implements OnInit {
         private fb: FormBuilder,
         private categoryService: CategoriesService,
         private postService: PostsService,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -51,8 +53,10 @@ export class NewPostComponent implements OnInit {
     }
 
     onTitleChanged($event) {
-        const title = $event.target.value;
-        this.permalink = title.replace(/\s/g, '-');
+        let title = $event.target.value;
+        title = title.replace(/\s/g, '-');
+        title = title.replace(/'/g, '');
+        this.permalink = title.toLowerCase();
     }
 
     showImagePreview($event) {
@@ -70,7 +74,7 @@ export class NewPostComponent implements OnInit {
 
         let postData: Post = {
             title: this.postForm.value.title,
-            permalink: this.postForm.value.permalink,
+            permalink: this.permalink,
             category: {
                 categoryId: this.postForm.value.category.split('-').at(0),
                 category: this.postForm.value.category.split('-').at(1)
@@ -84,13 +88,13 @@ export class NewPostComponent implements OnInit {
             createdAt: new Date()
         }
 
-        this.postService.uploadImage(this.selectedImg)
-            .then(url => {
-                postData.postImgPath = url;
-            })
-            .catch(err => {
-                this.toastr.error('Sorry, an error occured! Please try again.');
-                return;
-            });
+        this.postService.publishPost(this.selectedImg, postData).then(() => {
+            this.postForm.reset;
+            this.imgSrc = 'assets/image-not-uploaded.png';
+            this.router.navigate([ '/posts' ]);
+        }).catch(err => {
+            this.postForm.reset();
+            this.imgSrc = 'assets/image-not-uploaded.png'
+        });
     }
 }
