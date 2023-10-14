@@ -4,11 +4,15 @@
     background-blend-mode: luminosity;
 }
 
+section {
+    max-width: 70%;
+    min-width: 70%;
+}
+
 .card {
     background-color: var(--secondary-color-90);
     padding-left: 10px;
     padding-right: 10px;
-    min-width: 70% !important;
 }
 
 .parallax-border {
@@ -103,7 +107,23 @@ p.text-danger {
     height: 40px !important;
 }
 
+@media screen and (max-width:500px) {
+    .card {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .card-body {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}
+
 @media screen and (max-width:800px) {
+    section#post-create-section {
+        max-width: 98%;
+    }
+
     form div#file-group {
         margin-bottom: 21px;
     }
@@ -112,20 +132,17 @@ p.text-danger {
         margin-bottom: 0;
         padding-bottom: 0;
     }
-
-    form#post-create div#textarea-group-content {
-        min-height: 264px;
-    }
 }
 
-@media screen and (max-width:1199px) {
+@media screen and (min-width:801px) and (max-width:1199px) {
     form div#textarea-group-content {
-            min-height: 270px;
-        }
+        min-height: auto;
+    }
 }
 
 @media screen and (min-width:1200px) {
     form div#textarea-group-content {
-        min-height: 238px;
+        min-height: auto;
+        max-width: inherit !important;
     }
 }

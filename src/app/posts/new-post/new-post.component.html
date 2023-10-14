@@ -1,8 +1,8 @@
 <div class="parallax bg-light py-5 my-5">
     <section id="post-create-section"
-             class="d-flex flex-column align-items-center shadow-effect my-5">
+             class="m-auto flex-column justify-content-center align-items-center shadow-effect my-5">
 
-        <article class="card mx-2 border-0 rounded">
+        <article class="card border-0 rounded">
 
             <!-- headings -->
             <div class="parallax-border rounded-top"></div>
@@ -81,7 +81,8 @@
                                             disabled
                                             value="">Please, select a post category</option>
                                     <option *ngFor="let category of categories"
-                                            value="{{category['id']}}-{{category['category']}}">{{category['category']}}</option>
+                                            value="{{category['id']}}-{{category['category']}}">{{category['category']}}
+                                    </option>
                                 </select>
                                 <ng-container *ngIf="fc.category.touched && fc.category.invalid">
                                     <p *ngIf="fc.category.errors?.['required']"
@@ -126,9 +127,10 @@
                                        class="text-danger ps-2">Please, enter content for your post.</p>
                                 </ng-container>
                             </div>
-                            <hr class="mt-1 mb-4">
+
                             <div id="button-group"
-                                 class="d-flex gap-2">
+                                 [class]="fc.content.touched && fc.content.invalid ? 'mt-2' : 'mt-4'"
+                                 class="d-flex gap-2 mb-0">
                                 <button [disabled]="postForm.invalid"
                                         class="btn btn-custom-theme lh-sm">Save Post</button>
                                 <button type="button"

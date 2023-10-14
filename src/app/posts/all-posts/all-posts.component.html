@@ -28,14 +28,19 @@
                 <img src="{{doc['postImgPath']}}"
                      alt="{{doc['title']}}"
                      class="card-img-top">
+                     <div class="d-flex bg-secondary-subtle">
+                        <button class="btn btn-secondary btn-sm rounded-0 flex-grow-1">Preview</button>
+                        <button class="btn btn-warning btn-sm rounded-0 flex-grow-1">Edit</button>
+                        <button class="btn btn-danger btn-sm rounded-0 flex-grow-1">Delete</button>
+                     </div>
                 <section class="card-body">
                     <small class="bg-light text-danger text-center">{{doc['category']['category']}}</small>
                     <small class="bg-light text-success text-center">{{doc['isFeatured'] ? 'Featured' : ''}}</small>
                     <small class="bg-light text-info text-center">Views - {{doc['views']}}</small>
 
                     <h5 class="text-black-50 fw-bold mt-2">{{doc['title']}}</h5>
-                    <p>{{doc['excerpt'] | slice:0:250}}</p>
-
+                    <p *ngIf="doc['excerpt'].length > 250">{{doc['excerpt'] | slice:0:250}}<span>...</span></p>
+                    <p *ngIf="doc['excerpt'].length <= 250">{{doc['excerpt']}}</p>
                     <small class="bg-light text-info text-center">Last updated -
                         {{doc['createdAt'].toDate() | date:'medium'}}</small>
                 </section>

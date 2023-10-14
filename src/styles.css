@@ -183,6 +183,11 @@ div.angular-editor-toolbar {
 div.angular-editor-textarea {
     min-height: 150px !important;
     border-radius: 0.3rem;
+    max-width: inherit !important;
+    resize: vertical !important;
+    overflow: auto !important;
+    overflow-wrap: break-word !important;
+    scroll-behavior: smooth !important;
     box-shadow: 0px 0px 8px -1px inset gainsboro !important;
 }
 

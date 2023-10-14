@@ -29,6 +29,12 @@ button + button {
     font-size: 0.95rem;
 }
 
+p span{
+    color: var(--primary-color);
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
 .card-body small+small{
     margin-left: 4px;
 }
