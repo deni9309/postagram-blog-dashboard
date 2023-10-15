@@ -28,11 +28,13 @@
                 <img src="{{doc['postImgPath']}}"
                      alt="{{doc['title']}}"
                      class="card-img-top">
-                     <div class="d-flex bg-secondary-subtle">
-                        <button class="btn btn-secondary btn-sm rounded-0 flex-grow-1">Preview</button>
-                        <button class="btn btn-warning btn-sm rounded-0 flex-grow-1">Edit</button>
-                        <button class="btn btn-danger btn-sm rounded-0 flex-grow-1">Delete</button>
-                     </div>
+                <div class="d-flex bg-secondary-subtle">
+                    <button class="btn btn-secondary btn-sm rounded-0 flex-grow-1">Preview</button>
+                    <button routerLink="/posts/new"
+                            [queryParams]="{id: doc['id']}"
+                            class="btn btn-warning btn-sm rounded-0 flex-grow-1">Edit</button>
+                    <button class="btn btn-danger btn-sm rounded-0 flex-grow-1">Delete</button>
+                </div>
                 <section class="card-body">
                     <small class="bg-light text-danger text-center">{{doc['category']['category']}}</small>
                     <small class="bg-light text-success text-center">{{doc['isFeatured'] ? 'Featured' : ''}}</small>

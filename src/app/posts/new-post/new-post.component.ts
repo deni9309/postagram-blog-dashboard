@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
-import { FormBuilder, NgModel, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { combineLatest, mergeMap, of } from 'rxjs';
 
 import { Category, CategoryWithId, Post } from 'src/app/interfaces';
 import { CategoriesService } from 'src/app/services/categories.service';
@@ -15,9 +16,10 @@ import { PostsService } from 'src/app/services/posts.service';
 })
 export class NewPostComponent implements OnInit {
     permalink: string = '';
-
     imgSrc: string | ArrayBuffer | DataView | URL = 'assets/image-not-uploaded.png';
     selectedImg: ArrayBuffer | Blob | Uint8Array;
+    categories: DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[] | Category[];
+    editedPost?: DocumentData | DocumentData & { id: string } = null;
 
     postForm = this.fb.group({
         title: [ '', [ Validators.required, Validators.minLength(6) ] ],
@@ -28,24 +30,48 @@ export class NewPostComponent implements OnInit {
         content: [ '', [ Validators.required ] ]
     });
 
-    content: NgModel;
-    contentPlaceholder: string = 'Write your post here...';
-
-    categories: DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[] | Category[];
-
     constructor(
         private fb: FormBuilder,
         private categoryService: CategoriesService,
         private postService: PostsService,
         private toastr: ToastrService,
-        private router: Router
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
-        this.categoryService.loadData()
-            .subscribe({
-                next: (data) => { this.categories = data; }
-            });
+        combineLatest([
+            this.activatedRoute.queryParams.pipe(
+                mergeMap(params => {
+                    const postId = params[ 'id' ];
+                    if (postId) return this.postService.loadDocumentById(postId);
+
+                    return of(null);
+                })
+            ),
+            this.categoryService.loadData()
+        ]).subscribe({
+            next: ([ post, categories ]) => {
+                if (post) {
+                    this.editedPost = post;
+                    setTimeout(() => {
+                        this.postForm.patchValue({
+                            title: post[ 'title' ],
+                            permalink: post[ 'permalink' ],
+                            excerpt: post[ 'excerpt' ],
+                            category: `${post[ 'category' ][ 'categoryId' ]}-${post['category']['category']}`,
+                            postImg: '',
+                            content: post[ 'content' ]
+                        });     
+                    });
+                }
+                this.categories = categories;
+            },
+            error: err => {
+                console.log(err);
+                this.router.navigate([ '/page-not-found' ]);
+            }
+        })
     }
 
     get fc() {
@@ -61,9 +87,7 @@ export class NewPostComponent implements OnInit {
 
     showImagePreview($event) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-            this.imgSrc = e.target.result;
-        }
+        reader.onload = (e) => { this.imgSrc = e.target.result; }
 
         reader.readAsDataURL($event.target.files[ 0 ]);
         this.selectedImg = $event.target.files[ 0 ];

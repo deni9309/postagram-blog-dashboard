@@ -61,7 +61,7 @@
                                           class="form-control"
                                           placeholder="Excerpt (summary of your post)"
                                           formControlName="excerpt"
-                                          [ngClass]="{'is-invalid': fc.excerpt.touched && fc.excerpt.invalid}"></textarea>
+                                          [ngClass]="{'is-invalid': fc.excerpt.touched && fc.excerpt.invalid}">{{editedPost? && editedPost['excerpt']}}</textarea>
                                 <ng-container *ngIf="fc.excerpt.touched && fc.excerpt.invalid">
                                     <p *ngIf="fc.excerpt.errors?.['required']"
                                        class="text-danger ps-2">Excerpt is required.</p>
@@ -77,11 +77,12 @@
                                 <select class="form-select"
                                         formControlName="category"
                                         [ngClass]="{'is-invalid': fc.category.touched && fc.category.invalid}">
-                                    <option selected
+                                    <option selected="{{editedPost == null}}"
                                             disabled
                                             value="">Please, select a post category</option>
                                     <option *ngFor="let category of categories"
-                                            value="{{category['id']}}-{{category['category']}}">{{category['category']}}
+                                            value="{{category['id']}}-{{category['category']}}">
+                                        {{category['category']}}
                                     </option>
                                 </select>
                                 <ng-container *ngIf="fc.category.touched && fc.category.invalid">
@@ -119,8 +120,10 @@
                             <div id="textarea-group-content"
                                  class="d-flex w-100 justify-content-start flex-column">
                                 <angular-editor class="form-control pt-2"
-                                                placeholder="Add your content here..."
-                                                formControlName="content"></angular-editor>
+                                                placeholder="Add your text here..."
+                                                name="content"
+                                                formControlName="content">
+                                </angular-editor>
 
                                 <ng-container *ngIf="fc.content.touched && fc.content.invalid">
                                     <p *ngIf="fc.content.errors?.['required']"

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, Firestore, addDoc, collection, collectionData } from '@angular/fire/firestore';
+import { DocumentData, Firestore, addDoc, collection, collectionData, doc, docData } from '@angular/fire/firestore';
 import { ref, uploadBytesResumable, getStorage, getDownloadURL } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
 import { ToastrService } from 'ngx-toastr';
@@ -49,6 +49,12 @@ export class PostsService {
     loadData(): Observable<DocumentData[] | DocumentData & { id: string }[] | PostWithId[]> {
         const collectionInstance = collection(this.firestore, 'posts');
 
-        return collectionData(collectionInstance, { idField: 'id' });      
+        return collectionData(collectionInstance, { idField: 'id' });
     };
+
+    loadDocumentById(postId: string):Observable<DocumentData | DocumentData & {id:string}> {
+        const docRef = doc(this.firestore, 'posts', postId);
+
+        return docData(docRef, { idField: 'id' });
+    }
 }
