@@ -24,9 +24,15 @@ button + button {
     min-width: 300px;
 }
 
+img.card-img-top{
+    object-fit: cover;
+    height: 200px;
+    object-position: center;
+}
+
 #all-posts .card-body p,
 #all-posts .card-body small {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 p span{
@@ -35,7 +41,7 @@ p span{
     font-weight: 600;
 }
 
-.card-body small+small{
+.card-body small+small:not(:nth-of-type(2)){
     margin-left: 4px;
 }
 

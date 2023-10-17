@@ -6,10 +6,12 @@ export interface Post {
         category: string
     };
     postImgPath: string;
+    refFullPath?: string | null;
     excerpt: string;
     content: string;
     isFeatured: boolean;
     views: number;
-    status: string;
-    createdAt: Date;
+    status?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

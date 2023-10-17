@@ -20,6 +20,9 @@ export class NewPostComponent implements OnInit {
     selectedImg: ArrayBuffer | Blob | Uint8Array;
     categories: DocumentData[] | DocumentData & { id: string }[] | CategoryWithId[] | Category[];
     editedPost?: DocumentData | DocumentData & { id: string } = null;
+    postId?: string = null;
+    refFullPath: string = null;   
+    formStatus = 'Create New';
 
     postForm = this.fb.group({
         title: [ '', [ Validators.required, Validators.minLength(6) ] ],
@@ -43,27 +46,32 @@ export class NewPostComponent implements OnInit {
         combineLatest([
             this.activatedRoute.queryParams.pipe(
                 mergeMap(params => {
-                    const postId = params[ 'id' ];
-                    if (postId) return this.postService.loadDocumentById(postId);
-
-                    return of(null);
+                    this.postId = params[ 'id' ];
+                    if (this.postId) {
+                        return this.postService.loadDocumentById(this.postId);
+                    } else {
+                        return of(null);
+                    }
                 })
             ),
             this.categoryService.loadData()
         ]).subscribe({
             next: ([ post, categories ]) => {
                 if (post) {
+                    this.formStatus = 'Edit';
                     this.editedPost = post;
+                    this.refFullPath = post[ 'refFullPath' ];
+                    this.permalink = post[ 'permalink' ];
                     setTimeout(() => {
                         this.postForm.patchValue({
                             title: post[ 'title' ],
                             permalink: post[ 'permalink' ],
                             excerpt: post[ 'excerpt' ],
-                            category: `${post[ 'category' ][ 'categoryId' ]}-${post['category']['category']}`,
-                            postImg: '',
+                            category: `${post[ 'category' ][ 'categoryId' ]}-${post[ 'category' ][ 'category' ]}`,
                             content: post[ 'content' ]
-                        });     
+                        });
                     });
+                    this.imgSrc = post[ 'postImgPath' ];
                 }
                 this.categories = categories;
             },
@@ -104,21 +112,22 @@ export class NewPostComponent implements OnInit {
                 category: this.postForm.value.category.split('-').at(1)
             },
             postImgPath: '',
+            refFullPath: this.refFullPath,
             excerpt: this.postForm.value.excerpt,
             content: this.postForm.value.content,
             isFeatured: false,
             views: 0,
-            status: 'new',
-            createdAt: new Date()
         }
 
-        this.postService.publishPost(this.selectedImg, postData).then(() => {
-            this.postForm.reset;
-            this.imgSrc = 'assets/image-not-uploaded.png';
+        this.postService.publishPost(this.selectedImg, postData, this.formStatus, this.postId).then(() => {           
             this.router.navigate([ '/posts' ]);
         }).catch(err => {
-            this.postForm.reset();
-            this.imgSrc = 'assets/image-not-uploaded.png'
+            this.router.navigate([ '/page-not-found' ]);
+        }).finally(() => {
+            this.formStatus = 'Create New';
+            this.editedPost = null;
+            this.postId = null;
+            this.refFullPath = null;
         });
     }
 }

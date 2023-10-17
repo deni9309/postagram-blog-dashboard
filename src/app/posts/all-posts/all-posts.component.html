@@ -21,7 +21,7 @@
          class="container-fluid pt-4 mb-5">
     <div class="row col-md-12">
         <div
-             class="d-flex flex-md-row flex-column gap-2 flex-shrink-1 flex-wrap align-items-md-stretch align-items-center justify-content-center">
+             class="d-flex flex-md-row flex-column gap-2 flex-shrink-1 flex-wrap align-items-md-start align-items-center justify-content-center">
 
             <article class="card shadow-effect col-md-3"
                      *ngFor="let doc of posts$ | async">
@@ -29,22 +29,34 @@
                      alt="{{doc['title']}}"
                      class="card-img-top">
                 <div class="d-flex bg-secondary-subtle">
-                    <button class="btn btn-secondary btn-sm rounded-0 flex-grow-1">Preview</button>
+                    <button class="btn btn-secondary btn-sm rounded-0 flex-grow-1">
+                        Preview
+                    </button>
                     <button routerLink="/posts/new"
                             [queryParams]="{id: doc['id']}"
-                            class="btn btn-warning btn-sm rounded-0 flex-grow-1">Edit</button>
-                    <button class="btn btn-danger btn-sm rounded-0 flex-grow-1">Delete</button>
+                            class="btn btn-warning btn-sm rounded-0 flex-grow-1">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm rounded-0 flex-grow-1">
+                        Delete
+                    </button>
                 </div>
                 <section class="card-body">
+                    <small class="d-block bg-light text-success">Published -
+                        {{doc['createdAt'].toDate() | date: 'MMM dd, yyyy hh:mm a'}}</small>
                     <small class="bg-light text-danger text-center">{{doc['category']['category']}}</small>
                     <small class="bg-light text-success text-center">{{doc['isFeatured'] ? 'Featured' : ''}}</small>
-                    <small class="bg-light text-info text-center">Views - {{doc['views']}}</small>
+                    <small class="bg-light text-warning text-center">Views - {{doc['views']}}</small>
 
                     <h5 class="text-black-50 fw-bold mt-2">{{doc['title']}}</h5>
                     <p *ngIf="doc['excerpt'].length > 250">{{doc['excerpt'] | slice:0:250}}<span>...</span></p>
                     <p *ngIf="doc['excerpt'].length <= 250">{{doc['excerpt']}}</p>
-                    <small class="bg-light text-info text-center">Last updated -
-                        {{doc['createdAt'].toDate() | date:'medium'}}</small>
+
+                    <ng-container *ngIf="doc['status'] == 'updated'">
+                        <hr>
+                        <small class="bg-light text-info text-center">Updated -
+                            {{doc['updatedAt'].toDate() | date:'medium'}}</small>
+                    </ng-container>
                 </section>
             </article>
         </div>

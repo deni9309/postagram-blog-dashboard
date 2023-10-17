@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, Firestore, addDoc, collection, collectionData, doc, docData } from '@angular/fire/firestore';
-import { ref, uploadBytesResumable, getStorage, getDownloadURL } from '@angular/fire/storage';
+import { DocumentData, Firestore, addDoc, collection, collectionData, doc, docData, updateDoc } from '@angular/fire/firestore';
+import { ref, uploadBytesResumable, getStorage, getDownloadURL, getBytes, getBlob, uploadBytes } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
 import { ToastrService } from 'ngx-toastr';
 
@@ -21,17 +21,34 @@ export class PostsService {
     * @param postData
     * @returns {Promise<void>}
     */
-    publishPost(selectedImage: ArrayBuffer | Blob | Uint8Array, postData: Post): Promise<void> {
-        const filePath = `postIMG/${Date.now()}`;
+    publishPost(
+        selectedImage: ArrayBuffer | Blob | Uint8Array,
+        postData: Post,
+        formStatus: string,
+        id?: string
+    ): Promise<void> {
+        let filePath: string;
+        if (id) {
+            filePath = postData.refFullPath;
+        } else {
+            filePath = `postIMG/${Date.now()}`
+        };
+
         const st = getStorage(initializeApp(environment.firebaseConfig));
         const storageRef = ref(st, filePath);
 
-        const uploaded = uploadBytesResumable(storageRef, selectedImage).then(() => {
+        const uploaded = uploadBytesResumable(storageRef, selectedImage).then((blob) => {
+            postData.refFullPath = blob.ref.fullPath;
+        
             getDownloadURL(storageRef).then(url => {
                 postData.postImgPath = url;
-                this.savePostData(postData);
+
+                if (formStatus == 'Edit') {
+                    this.updatePostData(id, postData);
+                } else {
+                    this.savePostData(postData);
+                }
             }).catch(err => {
-                console.log(err);
                 this.toastr.error('An error occured! Please try again');
             })
         });
@@ -41,8 +58,24 @@ export class PostsService {
 
     private savePostData(post: Post) {
         const collectionInstance = collection(this.firestore, 'posts');
+
+        post.createdAt = new Date();
+        post.status = 'new';
+        post.updatedAt = post.createdAt;
+
         addDoc(collectionInstance, post).then(() => {
             this.toastr.success('Post published successfully!');
+        });
+    }
+
+    private updatePostData(id: string, postData: Post) {
+        const docRef = doc(this.firestore, 'posts', id);
+
+        postData.updatedAt = new Date();
+        postData.status = 'updated';
+        
+        updateDoc(docRef, { ...postData }).then(() => {
+            this.toastr.success('Post updated successfully!');
         });
     }
 
@@ -52,7 +85,7 @@ export class PostsService {
         return collectionData(collectionInstance, { idField: 'id' });
     };
 
-    loadDocumentById(postId: string):Observable<DocumentData | DocumentData & {id:string}> {
+    loadDocumentById(postId: string): Observable<DocumentData | DocumentData & { id: string }> {
         const docRef = doc(this.firestore, 'posts', postId);
 
         return docData(docRef, { idField: 'id' });
