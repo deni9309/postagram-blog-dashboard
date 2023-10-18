@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, Firestore, addDoc, collection, collectionData, doc, docData, updateDoc } from '@angular/fire/firestore';
-import { ref, uploadBytesResumable, getStorage, getDownloadURL, getBytes, getBlob, uploadBytes } from '@angular/fire/storage';
+import { DocumentData, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, updateDoc } from '@angular/fire/firestore';
+import { ref, uploadBytesResumable, getStorage, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
+import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { environment } from 'src/environments/environment.variables';
 import { Post, PostWithId } from '../interfaces';
-import { Observable, map } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PostsService {
+    private readonly st = getStorage(initializeApp(environment.firebaseConfig));
 
     constructor(private firestore: Firestore, private toastr: ToastrService) { }
 
     /**
-    * Uploads an image to Firebase Storage and creates new post document with returned download URL of uploaded img.
-    * @param selectedImage
-    * @param postData
-    * @returns {Promise<void>}
-    */
+     * Uploads an image to Firebase Storage 
+     * Then returned download URL of uploaded image is assigned to the post property 'postImgPath'.
+     * When successfull creates/edits the post document.
+     * @param selectedImage image to upload
+     * @param postData post data
+     * @param formStatus 'Create New' or 'Edit' - Indicates wheteher to 'create' or 'edit' the post document
+     * @param id Post Id {string} or 'null'
+     * @returns Promise<void>
+     */
     publishPost(
-        selectedImage: ArrayBuffer | Blob | Uint8Array,
-        postData: Post,
-        formStatus: string,
-        id?: string
+        selectedImage: ArrayBuffer | Blob | Uint8Array, postData: Post, formStatus: string, id?: string
     ): Promise<void> {
         let filePath: string;
         if (id) {
@@ -34,12 +36,10 @@ export class PostsService {
             filePath = `postIMG/${Date.now()}`
         };
 
-        const st = getStorage(initializeApp(environment.firebaseConfig));
-        const storageRef = ref(st, filePath);
-
+        const storageRef = ref(this.st, filePath);
         const uploaded = uploadBytesResumable(storageRef, selectedImage).then((blob) => {
             postData.refFullPath = blob.ref.fullPath;
-        
+
             getDownloadURL(storageRef).then(url => {
                 postData.postImgPath = url;
 
@@ -52,7 +52,6 @@ export class PostsService {
                 this.toastr.error('An error occured! Please try again');
             })
         });
-
         return uploaded as Promise<void>;
     }
 
@@ -73,7 +72,7 @@ export class PostsService {
 
         postData.updatedAt = new Date();
         postData.status = 'updated';
-        
+
         updateDoc(docRef, { ...postData }).then(() => {
             this.toastr.success('Post updated successfully!');
         });
@@ -89,5 +88,23 @@ export class PostsService {
         const docRef = doc(this.firestore, 'posts', postId);
 
         return docData(docRef, { idField: 'id' });
+    }
+
+    deleteImage(postId: string, fileUrl: string) {
+        const fileRef = ref(this.st, fileUrl);
+        
+        deleteObject(fileRef).then(() => {
+            this.deleteDocumentData(postId);
+        }).catch(err => {
+            this.toastr.error('An error occured! Please try again');
+        });
+    }
+
+    deleteDocumentData(id: string) {
+        const docRef = doc(this.firestore, 'posts', id);
+
+        deleteDoc(docRef).then(() => {
+            this.toastr.warning('Post has been deleted.');
+        });
     }
 }

@@ -32,8 +32,7 @@ export class CategoriesService {
                 this.toastr.info('Category updated successfully!');
             })
             .catch(err => {
-                this.toastr.error('Category hasn\'t been updated!', 'Something went wrong!');
-                console.log(err);       
+                this.toastr.error('Category hasn\'t been updated!', 'Something went wrong!');   
             });
 
         return from(updatedDoc);
@@ -44,11 +43,10 @@ export class CategoriesService {
 
         const onDelete = deleteDoc(docInstance)
             .then(() => {
-                this.toastr.info('Category deleted successfully!');
+                this.toastr.warning('Category has been deleted.')
             })
             .catch(err => {
                 this.toastr.error('Category hasn\'t been deleted!', 'Something went wrong!');
-                console.log(err);  
             });
 
         return from(onDelete);

@@ -30,16 +30,14 @@
                      class="card-img-top">
                 <div class="d-flex bg-secondary-subtle">
                     <button class="btn btn-secondary btn-sm rounded-0 flex-grow-1">
-                        Preview
-                    </button>
+                        Preview</button>
                     <button routerLink="/posts/new"
                             [queryParams]="{id: doc['id']}"
                             class="btn btn-warning btn-sm rounded-0 flex-grow-1">
-                        Edit
-                    </button>
-                    <button class="btn btn-danger btn-sm rounded-0 flex-grow-1">
-                        Delete
-                    </button>
+                        Edit</button>
+                    <button (click)="onDeleteClick(doc['id'], doc['postImgPath'], template)"
+                            class="btn btn-danger btn-sm rounded-0 flex-grow-1">
+                        Delete</button>
                 </div>
                 <section class="card-body">
                     <small class="d-block bg-light text-success">Published -
@@ -63,3 +61,16 @@
     </div>
 
 </section>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <p>Are you sure you want to delete this post?</p>
+        <hr>
+        <button type="button"
+                class="btn btn-outline-danger btn-sm me-2"
+                (click)="onDeleteConfirm()">Yes</button>
+        <button type="button"
+                class="btn btn-outline-success btn-sm"
+                (click)="onDeleteDecline()">No</button>
+    </div>
+</ng-template>

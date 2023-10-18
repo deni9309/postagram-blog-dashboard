@@ -95,17 +95,14 @@ export class CategoriesComponent implements OnInit {
 
     onDeleteClick(id: string, template: TemplateRef<any>) {
         this.categoryIdToDelete = id;
-        
+
         this.modalRef = this.modalService.show(template, this.config);
     }
 
     onDeleteConfirm() {
         this.categoryService.deleteData(this.categoryIdToDelete).subscribe({
             next: () => {
-                console.log(this.categoryIdToDelete);
-                
                 this.categoryIdToDelete = '';
-                console.log('Category deleted');
             }
         });
 
