@@ -19,14 +19,14 @@ export class AllPostsComponent implements OnInit {
     config = { animated: true, class: 'modal-sm' };
     postIdToDelete: string = '';
     postImgPathToDelete: string = '';
-    
-    constructor(private postService: PostsService, private bsModal:BsModalService) { }
+
+    constructor(private postService: PostsService, private bsModal: BsModalService) { }
 
     ngOnInit(): void {
         this.posts$ = this.postService.loadData();
     }
 
-    onDeleteClick(id: string, imgPath: string, template:TemplateRef<any>) {
+    onDeleteClick(id: string, imgPath: string, template: TemplateRef<any>) {
         this.postIdToDelete = id;
         this.postImgPathToDelete = imgPath;
 
@@ -45,5 +45,9 @@ export class AllPostsComponent implements OnInit {
         this.postIdToDelete = '';
         this.postImgPathToDelete = '';
         this.modalRef.hide();
+    }
+
+    onFeatured(id: string, isFeatured: boolean) {
+        this.postService.updatePostDataByField(id, { isFeatured });
     }
 }

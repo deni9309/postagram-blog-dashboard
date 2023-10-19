@@ -69,12 +69,20 @@ export class PostsService {
 
     private updatePostData(id: string, postData: Post) {
         const docRef = doc(this.firestore, 'posts', id);
-
         postData.updatedAt = new Date();
         postData.status = 'updated';
 
         updateDoc(docRef, { ...postData }).then(() => {
             this.toastr.success('Post updated successfully!');
+        });
+    }
+
+    updatePostDataByField(id: string, fieldsToUpdate: { [ key: string ]: any }) {
+        const docRef = doc(this.firestore, 'posts', id);
+        updateDoc(docRef, { ...fieldsToUpdate }).then(() => {
+            console.log(fieldsToUpdate);
+            
+            this.toastr.info('Post modified.');
         });
     }
 
@@ -92,7 +100,7 @@ export class PostsService {
 
     deleteImage(postId: string, fileUrl: string) {
         const fileRef = ref(this.st, fileUrl);
-        
+
         deleteObject(fileRef).then(() => {
             this.deleteDocumentData(postId);
         }).catch(err => {

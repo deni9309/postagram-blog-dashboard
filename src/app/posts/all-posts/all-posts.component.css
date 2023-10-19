@@ -30,6 +30,10 @@ img.card-img-top{
     object-position: center;
 }
 
+button{
+    line-height: 1.25;
+}
+
 #all-posts .card-body p,
 #all-posts .card-body small {
     font-size: 0.9rem;
