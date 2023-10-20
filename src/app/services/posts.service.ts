@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DocumentData, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, updateDoc } from '@angular/fire/firestore';
+import { DocumentData, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, getDocs, getDocsFromServer, query, updateDoc, where } from '@angular/fire/firestore';
 import { ref, uploadBytesResumable, getStorage, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { initializeApp } from '@firebase/app';
 import { Observable } from 'rxjs';
@@ -69,21 +69,20 @@ export class PostsService {
 
     private updatePostData(id: string, postData: Post) {
         const docRef = doc(this.firestore, 'posts', id);
+        
         postData.updatedAt = new Date();
         postData.status = 'updated';
 
         updateDoc(docRef, { ...postData }).then(() => {
             this.toastr.success('Post updated successfully!');
-        });
+        }).catch(err => console.log(err));
     }
 
     updatePostDataByField(id: string, fieldsToUpdate: { [ key: string ]: any }) {
         const docRef = doc(this.firestore, 'posts', id);
         updateDoc(docRef, { ...fieldsToUpdate }).then(() => {
-            console.log(fieldsToUpdate);
-            
             this.toastr.info('Post modified.');
-        });
+        }).catch(err => console.log(err));
     }
 
     loadData(): Observable<DocumentData[] | DocumentData & { id: string }[] | PostWithId[]> {
@@ -115,4 +114,17 @@ export class PostsService {
             this.toastr.warning('Post has been deleted.');
         });
     }
+
+    updatePostsCategory(category: string, categoryId: string) {
+        const collectionRef = collection(this.firestore, 'posts');
+        const q = query(collectionRef, where('category.categoryId', '==', categoryId));
+
+        getDocsFromServer(q).then(documents => {
+            documents.docs.forEach(d => {
+                let docRef = d.ref;
+                updateDoc(docRef, { 'category.category': category })
+                    .then(() => { }).catch(err => this.toastr.error(err))
+            })
+        }).catch(err => this.toastr.error(err))
+    };
 }

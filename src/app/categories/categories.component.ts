@@ -8,6 +8,8 @@ import { CategoriesService } from '../services/categories.service';
 import { Category, CategoryWithId } from '../interfaces';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ChangeNotifierService } from '../services/change-notifier.service';
+import { PostsService } from '../services/posts.service';
 
 export interface EditMode {
     value: boolean;
@@ -32,6 +34,7 @@ export class CategoriesComponent implements OnInit {
 
     constructor(
         private categoryService: CategoriesService,
+        private postsService: PostsService,
         private toastr: ToastrService,
         private modalService: BsModalService,
     ) { }
@@ -68,9 +71,13 @@ export class CategoriesComponent implements OnInit {
             category: form.value.category,
         };
 
-        this.categoryService.updateData(data).subscribe(() => {
-            form.reset();
-            this.leaveEditMode();
+        this.categoryService.updateData(data).subscribe({
+            next: () => {
+                this.postsService.updatePostsCategory(data[ 'category' ], data[ 'id' ]);
+                
+                form.reset();
+                this.leaveEditMode();
+            }
         });
     }
 
@@ -88,22 +95,18 @@ export class CategoriesComponent implements OnInit {
             error: (err) => {
                 this.toastr.error('Category hasn\'t been created!', 'Something went wrong!');
                 form.reset();
-                console.log(err);
             }
         });
     }
 
     onDeleteClick(id: string, template: TemplateRef<any>) {
         this.categoryIdToDelete = id;
-
         this.modalRef = this.modalService.show(template, this.config);
     }
 
     onDeleteConfirm() {
         this.categoryService.deleteData(this.categoryIdToDelete).subscribe({
-            next: () => {
-                this.categoryIdToDelete = '';
-            }
+            next: () => { this.categoryIdToDelete = ''; }
         });
 
         this.modalRef.hide();

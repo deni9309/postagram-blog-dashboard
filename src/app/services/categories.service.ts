@@ -42,12 +42,8 @@ export class CategoriesService {
         const docInstance = doc(this.firestore, 'categories', id);
 
         const onDelete = deleteDoc(docInstance)
-            .then(() => {
-                this.toastr.warning('Category has been deleted.')
-            })
-            .catch(err => {
-                this.toastr.error('Category hasn\'t been deleted!', 'Something went wrong!');
-            });
+            .then(() => { this.toastr.warning('Category has been deleted.') })
+            .catch(err => { this.toastr.error('Category hasn\'t been deleted!', 'Something went wrong!'); });
 
         return from(onDelete);
     }

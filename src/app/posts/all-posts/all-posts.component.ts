@@ -12,7 +12,6 @@ import { PostsService } from 'src/app/services/posts.service';
     styleUrls: [ './all-posts.component.css' ]
 })
 export class AllPostsComponent implements OnInit {
-
     posts$: Observable<DocumentData[] | DocumentData & { id: string }[] | PostWithId[]>
 
     modalRef: BsModalRef;
