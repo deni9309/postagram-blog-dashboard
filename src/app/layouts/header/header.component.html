@@ -1,6 +1,24 @@
 <header class="navbar navbar-expand-lg fixed-top bg-white">
-    <div class="container justify-content-center">
-        <a routerLink="/"
-           class="site-logo"> POSTAGRAM <span>DASHBOARD</span> </a>
+    <div class="d-flex flex-md-row flex-column justify-content-evenly align-items-center col-12 gap-md-0 gap-2">
+        <div class="col-md-4 col-auto">
+            <a routerLink="/"
+               class="site-logo d-flex align-items-baseline justify-content-center"> POSTAGRAM <span>DASHBOARD</span>
+            </a>
+        </div>
+
+        <div *ngIf="hasUser$ | async"
+             class="d-flex flex-md-row flex-column align-items-center justify-content-center gap-md-3 gap-1">
+            <a href="#">{{userEmail}}</a>
+            <button (click)="logoutUser()"
+                    class="btn btn-outline-custom-theme btn-sm"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+        </div>
+        <div *ngIf="(hasUser$ | async) == false"
+             class="d-flex flex-md-row flex-column align-items-md-center align-items-stretch justify-content-center gap-md-3 gap-1">
+            <a class="nav nav-item align-items-center"
+               routerLink="/login"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
+            <a class="nav nav-item align-items-center"
+               routerLink="/login"><i class="fas fa-user-plus me-1"></i>Register</a>
+        </div>
+
     </div>
 </header>

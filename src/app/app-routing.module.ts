@@ -6,6 +6,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AllPostsComponent } from './posts/all-posts/all-posts.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent
+    },
+    {
+        path: 'login',
+        component:LoginComponent
     },
     {
         path: 'categories',

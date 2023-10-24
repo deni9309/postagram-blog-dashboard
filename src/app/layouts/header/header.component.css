@@ -1,5 +1,6 @@
 header {
-    height: 100px;
+    min-height: 100px;
+    max-height: fit-content;
     box-shadow: 0 10px 20px -20px black;
 }
 
@@ -7,6 +8,25 @@ header {
     font-size: 1.5rem;
 }
 
-a>span{
+.btn-outline-custom-theme {
+    min-height: 35px;
+}
+
+a > span {
     font-size: 0.8rem;
+}
+
+a.nav-item {
+    padding: .5rem 1rem .5rem 1rem;
+    background-color: var(--secondary-color-90);
+    color: var(--primary-color);
+    border-radius: .3rem;
+    border: 0.5px var(--secondary-color-90) solid;
+}
+
+a.nav.nav-item:hover:not(.site-logo) {
+    color: var(--primary-color-hover);
+    text-decoration: none;
+    background-color: white;
+    border: 0.5px var(--primary-color) solid;
 }

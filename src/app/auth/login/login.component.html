@@ -1,0 +1,74 @@
+<div class="parallax bg-light py-5 my-5">
+    <section id="login-section"
+             class="m-auto flex-column justify-content-center align-items-center shadow-effect my-5">
+        <article class="card border-0 rounded">
+            <div class="parallax-border rounded-top"></div>
+            <div class="d-flex flex-column card-body align-items-center justify-content-center my-md-3 my-3">
+                <!-- headings -->
+                <div class="text-center">
+                    <h3 class="text-theme-primary">Login</h3>
+                    <p class="text-theme-primary ps-md-3 pe-md-3">Please, login to your admin account to manage
+                        POSTAGRAM</p>
+                    <hr class="mb-4">
+                </div>
+
+                <!-- login form -->
+                <form [formGroup]="loginForm"
+                      name="loginForm"
+                      id="login"
+                      (ngSubmit)="onSubmit()">
+
+                    <div class="row col-md-12 m-0 justify-content-around">
+                        <div class="d-flex flex-column col-md-7 col-12">
+                            <div class="field-group d-flex w-100 justify-content-start flex-column">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-envelope fa-lg"></i>
+                                    <input type="email"
+                                           name="email"
+                                           placeholder="Email"
+                                           class="form-control"
+                                           formControlName="Email"
+                                           [ngClass]="{'is-invalid': fc.Email.touched && fc.Email.invalid}">
+                                </div>
+                                <ng-container *ngIf="fc.Email.touched && fc.Email.invalid">
+                                    <p *ngIf="fc.Email.errors?.['required']"
+                                       class="text-danger ps-2">Email is required.</p>
+                                    <p *ngIf="fc.Email.errors?.['email']"
+                                       class="text-danger ps-2">This is not a valid email!</p>
+                                </ng-container>
+                            </div>
+
+                            <div class="field-group d-flex w-100 justify-content-start flex-column">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-key fa-lg fa-light"></i>
+                                    <input type="password"
+                                           autocomplete="false"
+                                           name="password"
+                                           class="form-control"
+                                           placeholder="Password"
+                                           formControlName="Password"
+                                           [ngClass]="{'is-invalid': fc.Password.touched && fc.Password.invalid}">
+                                </div>
+                                <ng-container *ngIf="fc.Password.touched && fc.Password.invalid">
+                                    <p *ngIf="fc.Password.errors?.['required']"
+                                       class="text-danger ps-2">Password is required.</p>
+                                    <p *ngIf="fc.Password.errors?.['minlength']"
+                                       class="text-danger ps-2">Password must be at least 6 characters long.</p>
+                                </ng-container>
+                            </div>
+
+                            <div id="button-group"
+                                 class="d-flex gap-2 mt-2 mb-0">
+                                <button [disabled]="loginForm.invalid"
+                                        class="btn btn-custom-theme lh-sm">Login</button>
+                                <button type="button"
+                                        routerLink="/dashboard"
+                                        class="btn btn-outline-custom-theme">Back to Dashboard</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </section>
+</div>
