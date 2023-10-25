@@ -1,30 +1,53 @@
-header {
-    min-height: 100px;
-    max-height: fit-content;
+nav {
     box-shadow: 0 10px 20px -20px black;
 }
 
 .site-logo {
+    box-sizing: border-box;
+    text-decoration: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
     font-size: 1.5rem;
+    height: 50px;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    color: var(--primary-color);
+    margin-left: 10% !important;
 }
 
 .btn-outline-custom-theme {
     min-height: 35px;
 }
 
+a,
+button {
+    box-sizing: border-box !important;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+
 a > span {
     font-size: 0.8rem;
 }
 
-a.nav-item {
-    padding: .5rem 1rem .5rem 1rem;
-    background-color: var(--secondary-color-90);
-    color: var(--primary-color);
+a.nav-link,
+button.nav-link {
+    padding: 0.5rem;
+    color: var(--primary-color) !important;
     border-radius: .3rem;
-    border: 0.5px var(--secondary-color-90) solid;
+    border: 0.5px var(--primary-color) solid;
 }
 
-a.nav.nav-item:hover:not(.site-logo) {
+.active {
+
+    background-color: var(--secondary-color-90);
+    border: 1px solid orange !important;
+}
+
+a.nav-link:hover,
+button.nav-link:hover {
     color: var(--primary-color-hover);
     text-decoration: none;
     background-color: white;

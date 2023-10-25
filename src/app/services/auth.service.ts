@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
     private loggedIn$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    isLoggedInGuard: boolean = false;
 
     constructor(
         private afAuth: Auth,
@@ -22,6 +23,7 @@ export class AuthService {
             .then(user => {
                 this.setUserToLS();
                 this.loggedIn$$.next(true);
+                this.isLoggedInGuard = true;
 
                 this.toastr.success(`Welcome back, ${email}!`)
                 this.router.navigate([ '/dashboard' ]);
@@ -41,6 +43,7 @@ export class AuthService {
         signOut(this.afAuth).then(() => {
             localStorage.removeItem('user');
             this.loggedIn$$.next(false);
+            this.isLoggedInGuard = false;
 
             this.toastr.info('Logged Out... Goodbye!')
             this.router.navigate([ '/login' ]);

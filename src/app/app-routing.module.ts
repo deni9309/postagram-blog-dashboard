@@ -7,6 +7,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AllPostsComponent } from './posts/all-posts/all-posts.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -16,7 +17,8 @@ const routes: Routes = [
     },
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'login',
@@ -24,15 +26,18 @@ const routes: Routes = [
     },
     {
         path: 'categories',
-        component: CategoriesComponent
+        component: CategoriesComponent,
+        canActivate: [ AuthGuard ]
     },
     {
         path: 'posts',
-        component:AllPostsComponent
+        component: AllPostsComponent,
+        canActivate: [ AuthGuard ]
     },
     {
         path: 'posts/new',
-        component: NewPostComponent
+        component: NewPostComponent,
+        canActivate: [ AuthGuard ]
     },
     {
         path: 'page-not-found',

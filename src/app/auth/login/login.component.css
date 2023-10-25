@@ -141,13 +141,17 @@ p.text-danger {
     section#login-section {
         max-width: 75%;
     }
+}
 
-    form div#file-group {
-        margin-bottom: 21px;
+@media screen and (min-width:525px) {
+    form .field-group{
+        min-width: 380px;
+        max-width: 500px;
     }
+}
 
-    form div#file-group p.text-danger {
-        margin-bottom: 0;
-        padding-bottom: 0;
+@media screen and (max-width:524px) {
+    form .field-group {
+        min-width: 300px;
     }
 }
