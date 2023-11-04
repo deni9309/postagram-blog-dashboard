@@ -22,7 +22,7 @@
                  id="navbarSupportedContent">
                 <ul class="navbar-nav m-auto mb-2 mb-lg-0 mt-2 gap-1">
                     <ng-container *ngIf="hasUser$ | async">
-                        <li class="nav-item">
+                        <li *ngIf="userEmail" class="nav-item">
                             <a class="nav-link"
                                href="#">{{userEmail}}</a>
                         </li>

@@ -41,7 +41,6 @@ button.nav-link {
 }
 
 .active {
-
     background-color: var(--secondary-color-90);
     border: 1px solid orange !important;
 }
