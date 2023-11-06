@@ -2,17 +2,8 @@ nav {
     box-shadow: 0 10px 20px -20px black;
 }
 
-.site-logo {
-    box-sizing: border-box;
-    text-decoration: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    font-size: 1.5rem;
-    height: 50px;
-    padding: 0.5rem;
-    border-radius: 0.3rem;
-    color: var(--primary-color);
+.png-logo {
+    object-fit: contain;
     margin-left: 10% !important;
 }
 
@@ -28,16 +19,13 @@ button {
     align-items: center;
 }
 
-a > span {
-    font-size: 0.8rem;
-}
-
 a.nav-link,
 button.nav-link {
     padding: 0.5rem;
     color: var(--primary-color) !important;
     border-radius: .3rem;
     border: 0.5px var(--primary-color) solid;
+    max-width: 160px;
 }
 
 .active {
@@ -51,4 +39,16 @@ button.nav-link:hover {
     text-decoration: none;
     background-color: white;
     border: 0.5px var(--primary-color) solid;
+}
+
+@media screen and (max-width:992px) {
+    nav object.png-logo {
+        height: 70px;
+        margin-left: 6.5% !important;
+    }
+
+    nav ul a.nav-link,
+    nav ul button.nav-link {
+        margin-left: 4% !important;
+    }
 }
