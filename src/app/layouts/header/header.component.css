@@ -25,7 +25,9 @@ button.nav-link {
     color: var(--primary-color) !important;
     border-radius: .3rem;
     border: 0.5px var(--primary-color) solid;
-    max-width: 160px;
+    min-width: fit-content;
+    max-width: 220px;
+    font-size: 0.85rem;
 }
 
 .active {

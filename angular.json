@@ -32,7 +32,9 @@
                         "styles": [
                             "src/styles.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -105,7 +107,9 @@
                         "styles": [
                             "src/styles.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                        ]
                     }
                 }
             }

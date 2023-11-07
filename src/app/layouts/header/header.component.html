@@ -1,23 +1,14 @@
 <header>
-    <nav class="navbar fixed-top py-2 navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-md py-2 bg-body-tertiary">
         <div class="container-fluid">
-
             <object class="png-logo"
                     data="/assets/postagram-logo-files/svg/logo-no-background.svg"
                     width="auto"
                     height="90"></object>
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".collapse.navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="collapse navbar-collapse"
-                 id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav m-auto mb-2 mt-2 gap-1">
                     <li class="nav-item">
                         <a class="nav-link"
@@ -32,7 +23,7 @@
                         </li>
                         <li class="nav-item">
                             <button (click)="logoutUser()"
-                                    class="nav-link"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                    class="nav-link w-100"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
 
                         </li>
                     </ng-container>
