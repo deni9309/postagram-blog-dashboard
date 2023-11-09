@@ -1,18 +1,33 @@
 footer {
-    height: 100px;
+    min-height: 110px;
+    max-height: fit-content;
     padding: 0.5rem;
     background-color: var(--navbar-footer-color);
     margin-bottom: 0px;
 }
 
-.site-logo {
+.site-name {
     font-size: 1rem;
 }
 
-.site-logo span{
+.site-name span {
     font-size: 0.65rem;
+}
+
+.nav-link {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    padding-bottom: 0;
 }
 
 p {
     font-size: 0.9rem;
+}
+
+span {
+    font-size: 0.8rem;
+}
+
+span.nav-link {
+    text-transform: none;
 }
